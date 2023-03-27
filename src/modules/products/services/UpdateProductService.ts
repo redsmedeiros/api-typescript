@@ -10,7 +10,7 @@ interface IRequest{
 }
 
 
-export class UpdateProductService{
+export default class UpdateProductService{
 
   public async execute({id, name, price, quantity}: IRequest): Promise<Product>{
 
