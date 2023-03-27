@@ -11,7 +11,7 @@ interface IRequest{
 
 export class CreateProductService{
 
-  public async execute({name, price, quantity}: IRequest){
+  public async execute({name, price, quantity}: IRequest): Promise<Product>{
 
     const productsRepository = getCustomRepository(ProductRepository);
 
