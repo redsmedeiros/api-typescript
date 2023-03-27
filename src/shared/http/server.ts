@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import express from 'express';
 import 'express-async-errors';
+import { errors } from 'celebrate';
 import routes from './routes';
 import { Response, Request, NextFunction } from 'express';
 import { AppError } from '@shared/errors/AppError';
@@ -11,6 +12,8 @@ const app = express();
 app.use(express.json());
 
 app.use(routes);
+
+app.use(errors());
 
 //middlewares para erros após rotas
 app.use((error: Error, req: Request, res: Response, next: NextFunction)=>{
