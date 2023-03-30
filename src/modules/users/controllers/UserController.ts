@@ -37,11 +37,11 @@ export default class UserController{
 
   public async create(req: Request, res: Response): Promise<Response>{
 
-    const { name, email, password } = req.body;
+    const { name, email, password, avatar } = req.body;
 
     const userService = new CreateUserService();
 
-    const userCreated = await userService.execute({ name, email , password});
+    const userCreated = await userService.execute({ name, email , password, avatar});
 
     return res.json({
       status: 'success',
