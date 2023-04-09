@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import UserController from '../controllers/UserController';
 import { celebrate, Joi, Segments } from 'celebrate';
+import isAuthenticated from '../../../shared/http/Middlewares/isAuthenticated';
 
 const userRoutes = Router();
 
 const userController = new UserController();
 
-userRoutes.get('/', userController.index);
+userRoutes.get('/', isAuthenticated, userController.index);
 userRoutes.get('/:id',
 celebrate({
   [Segments.PARAMS]: {

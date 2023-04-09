@@ -3,16 +3,23 @@ import  {getCustomRepository } from 'typeorm';
 import UsersRepository from '../typeorm/repositories/UsersRepository';
 import User  from '../typeorm/entities/User'
 import bcrypt from 'bcryptjs';
+import { sign } from 'jsonwebtoken';
+import Auth from '@config/Auth';
 
 interface IRequest{
   email: string;
   password: string;
 }
 
+interface IResponse{
+  user: User,
+  token: string
+}
+
 
 export default class CreateSessionService{
 
-  public async execute({ email, password }: IRequest): Promise<User>{
+  public async execute({ email, password }: IRequest): Promise<IResponse>{
 
     const userRepository = getCustomRepository(UsersRepository);
 
@@ -28,6 +35,14 @@ export default class CreateSessionService{
       throw new AppError('Senha incorreta');
     }
 
-    return user
+    const token = sign({}, Auth.jwt.secret, {
+      subject: user.id,
+      expiresIn: Auth.jwt.expiresIn
+    })
+
+    return {
+      user,
+      token
+    }
   }
 }
